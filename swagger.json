@@ -1,0 +1,355 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Desafio 01 - Princípios SOLID",
+    "description": "API desafio 01 - Ignite",
+    "version": "1.0"
+  },
+  "paths": {
+    "/users": {
+      "description": "Users management",
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Herbert Paes",
+                  "email": "herbert@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "764aafd9-6395-4092-a2ad-f5ddd7137701",
+                    "admin": false,
+                    "created_at": "2022-03-06T15:16:16.903Z",
+                    "updated_at": "2022-03-06T15:16:16.903Z",
+                    "name": "teste",
+                    "email": "email1@teste.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid name or email.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "Invalid name or email."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "description": "Only users with admin privileges can access",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "764aafd9-6395-4092-a2ad-f5ddd7137701",
+                      "admin": false,
+                      "created_at": "2022-03-06T15:16:16.903Z",
+                      "updated_at": "2022-03-06T15:16:16.903Z",
+                      "name": "teste",
+                      "email": "email1@teste.com"
+                    },
+                    {
+                      "id": "6e825a99-7355-4ca1-9f30-f7337c6b059b",
+                      "admin": false,
+                      "created_at": "2022-03-06T21:40:56.811Z",
+                      "updated_at": "2022-03-06T21:40:56.811Z",
+                      "name": "teste 2",
+                      "email": "email2@teste.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User does not exists"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User has not admin privileges",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "This user has no admin privileges access users list"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Returns specific user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "id": "764aafd9-6395-4092-a2ad-f5ddd7137701",
+                    "admin": false,
+                    "created_at": "2022-03-06T15:16:16.903Z",
+                    "updated_at": "2022-03-06T15:16:16.903Z",
+                    "name": "teste",
+                    "email": "email1@teste.com"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User does not exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Provide user admin privileges",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "id": "764aafd9-6395-4092-a2ad-f5ddd7137701",
+                    "admin": false,
+                    "created_at": "2022-03-06T15:16:16.903Z",
+                    "updated_at": "2022-03-06T15:16:16.903Z",
+                    "name": "teste",
+                    "email": "email1@teste.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": "string"
+                  },
+                  "example": {
+                    "error": "User does not exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
