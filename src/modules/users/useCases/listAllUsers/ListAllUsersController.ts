@@ -12,6 +12,11 @@ class ListAllUsersController {
       const users = this.listAllUsersUseCase.execute({ user_id });
       return response.json(users);
     } catch (err) {
+      if (
+        err.message === "This user has no admin privileges access users list"
+      ) {
+        return response.status(401).json({ error: err.message });
+      }
       return response.status(400).json({ error: err.message });
     }
   }

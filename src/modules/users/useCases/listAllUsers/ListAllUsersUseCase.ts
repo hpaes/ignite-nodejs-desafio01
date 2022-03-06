@@ -13,14 +13,14 @@ class ListAllUsersUseCase {
 
     const userExists = users.find((u) => u.id === user_id);
 
+    if (!userExists) {
+      throw new Error("User does not exists");
+    }
+
     const isAdmin = userExists.admin;
 
     if (!isAdmin) {
-      throw new Error("This user has no admin privileges");
-    }
-
-    if (!userExists) {
-      throw new Error("User does not exists");
+      throw new Error("This user has no admin privileges access users list");
     }
 
     return users;
