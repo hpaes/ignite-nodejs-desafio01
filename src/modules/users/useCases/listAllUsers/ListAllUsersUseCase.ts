@@ -15,12 +15,12 @@ class ListAllUsersUseCase {
 
     const isAdmin = userExists.admin;
 
-    if (!userExists) {
-      throw new Error("User does not exists");
-    }
-
     if (!isAdmin) {
       throw new Error("This user has no admin privileges");
+    }
+
+    if (!userExists) {
+      throw new Error("User does not exists");
     }
 
     return users;

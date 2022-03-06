@@ -15,9 +15,9 @@ class TurnUserAdminUseCase {
       throw new Error("Invalid user");
     }
 
-    user.admin = true;
+    const admin = this.usersRepository.turnAdmin(user);
 
-    return user;
+    return admin;
   }
 }
 
